@@ -1,0 +1,31 @@
+# Added by diagnostic
+
+# Secrets and local config
+.env
+.env.*
+!.env.example
+.claude/settings.local.json
+.claude/worktrees/
+*.pem
+*.key
+*.p12
+id_rsa*
+
+# OS and editors
+.DS_Store
+
+# Dependencies and build output
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+
+# Logs and data
+*.log
+*.log.old
+# Conversation history, written at runtime by memory.py
+memory.json

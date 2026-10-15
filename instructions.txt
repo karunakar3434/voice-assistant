@@ -1,0 +1,4 @@
+# Permanent instructions for the assistant.
+# Edit this file anytime — changes take effect on the next activation.
+# Lines starting with # are ignored.
+# Your name goes in .env as OWNER_NAME, and your town as HOME_LOCATION, not here.

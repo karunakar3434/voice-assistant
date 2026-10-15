@@ -1,0 +1,8 @@
+faster-whisper
+pyaudio
+openai
+numpy
+ddgs
+python-docx
+reportlab
+claude-agent-sdk

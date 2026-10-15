@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.karun.almighty</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>__PROJECT_DIR__/run_almighty.sh</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>__PROJECT_DIR__</string>
+
+    <!-- Start immediately when this agent is loaded, and again at every login. -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <!-- Always restart on exit (crash or otherwise) — the assistant has no
+         legitimate voluntary-exit path once running headless. -->
+    <key>KeepAlive</key>
+    <true/>
+
+    <!-- Avoid App Nap / background throttling so wake-word listening stays
+         responsive. -->
+    <key>ProcessType</key>
+    <string>Interactive</string>
+
+    <key>StandardOutPath</key>
+    <string>__PROJECT_DIR__/assistant.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>__PROJECT_DIR__/assistant.log</string>
+</dict>
+</plist>
