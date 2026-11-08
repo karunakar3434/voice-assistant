@@ -7,11 +7,10 @@
 #   1. Load .env — LLM_PROVIDER, GROQ_API_KEY, OWNER_NAME… (launchd doesn't
 #      source shell profiles).
 #   2. Rotate assistant.log if it's grown too large.
-#   3. Keep the Mac awake (system/display/disk idle sleep) for exactly as
+#   3. Stop the Mac from idle-sleeping (system/display/disk) for exactly as
 #      long as the assistant process is alive, so Almighty keeps listening.
-#      Note: this cannot override a MacBook sleeping because the lid is
-#      physically closed with no external display attached — that's
-#      enforced in hardware and no software can prevent it.
+#      Choosing Sleep or closing the lid still puts the Mac to sleep — she
+#      stops listening until it wakes, which is what Sleep should mean.
 
 set -uo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -39,7 +38,16 @@ fi
 # Tied to this script's PID via $$, which exec below preserves — so
 # caffeinate exits automatically the moment the assistant process exits,
 # with no orphaned processes left behind.
-caffeinate -dimsu -w $$ &
+#
+# No -s here. -s takes a PreventSystemSleep assertion, and on AC power that
+# turns Apple menu → Sleep (and lid close) into DarkWake — screen off, every
+# process still running — so the Mac never actually slept. Left like that for
+# hours, memory kept climbing until macOS ran out of swap and threw "Your
+# system has run out of application memory" (Nov 2026: ~39 GB of swap on a
+# 24 GB Mac, system daemons killed mid-"sleep"). What grew wasn't pinned down —
+# MenuBarAgent leaking was the main suspect — but a Mac that really sleeps
+# can't pile it up. -i alone blocks idle sleep and lets an explicit Sleep win.
+caffeinate -dimu -w $$ &
 
 echo "[$(date '+%Y-%m-%d %H:%M:%S')] Starting Almighty (launchd-managed)..."
 exec /opt/homebrew/bin/python3.11 -u assistant.py

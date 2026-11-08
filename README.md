@@ -160,7 +160,7 @@ The plist in the repo has a `__PROJECT_DIR__` placeholder instead of a real path
 
 If `launchctl bootstrap` fails with `Bootstrap failed: 5: Input/output error`, the service is already loaded — run `launchctl bootout "gui/$(id -u)/com.karun.almighty"` and bootstrap again.
 
-This starts her immediately and registers her to start automatically every time you log in. `run_almighty.sh` also keeps the Mac awake (via `caffeinate`) for as long as she's running, so she keeps listening instead of going idle — note this can't override a MacBook physically sleeping because the lid is closed with no external display attached, that's enforced in hardware.
+This starts her immediately and registers her to start automatically every time you log in. `run_almighty.sh` also stops the Mac from idle-sleeping (via `caffeinate -i`) for as long as she's running, so she keeps listening instead of going idle. Choosing Sleep or closing the lid still puts the Mac to sleep — an earlier version also passed `-s`, which on AC power turned every Sleep into a screen-off DarkWake and let memory pile up for hours until macOS ran out of swap. See the comment above `caffeinate` in `run_almighty.sh` for the details.
 
 **6. Check she's up:**
 ```bash
